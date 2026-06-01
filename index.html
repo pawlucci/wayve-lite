@@ -2082,7 +2082,7 @@
     <p class="of-lede">Tell us about your product, service or business. We’ll tell you, plainly and quickly, whether WAYVE is the right fit.</p>
   </header>
 
-  <form class="contact-form" onsubmit="event.preventDefault(); const b=this.querySelector('button'); b.textContent='THANKS — WE’LL BE IN TOUCH.'; b.disabled=true;">
+  <form class="contact-form" id="contact-form">
     <div class="cf-fields">
       <label class="cf-field">
         <input type="text" name="name" required placeholder="Full name" />
@@ -2099,6 +2099,31 @@
     </label>
     <button type="submit" class="cf-submit">GET IN TOUCH</button>
   </form>
+  <script>
+    document.getElementById(‘contact-form’).addEventListener(‘submit’, async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector(‘button’);
+      btn.disabled = true;
+      btn.textContent = ‘SENDING…’;
+      const data = Object.fromEntries(new FormData(this));
+      try {
+        const res = await fetch(‘/api/contact’, {
+          method: ‘POST’,
+          headers: { ‘Content-Type’: ‘application/json’ },
+          body: JSON.stringify(data),
+        });
+        if (res.ok) {
+          btn.textContent = "THANKS — WE’LL BE IN TOUCH.";
+        } else {
+          btn.textContent = ‘SOMETHING WENT WRONG — TRY AGAIN.’;
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = ‘SOMETHING WENT WRONG — TRY AGAIN.’;
+        btn.disabled = false;
+      }
+    });
+  </script>
 </section>
 
 <!-- ─────────── FOOTER ─────────── -->
