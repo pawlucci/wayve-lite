@@ -10,11 +10,23 @@ export default async (req) => {
     return new Response("Invalid JSON", { status: 400 });
   }
 
-  const { name, email, phone, message } = body;
+  const { name, email, phone, message, source } = body;
 
   if (!email) {
     return new Response(JSON.stringify({ error: "Email is required" }), {
       status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const contactGroupId = process.env.MAILERLITE_CONTACT_GROUP_ID || "177151137491716042";
+  const newsletterGroupId = process.env.MAILERLITE_NEWSLETTER_GROUP_ID;
+  const groupId = source === "newsletter" ? newsletterGroupId : contactGroupId;
+
+  if (!groupId) {
+    console.error("MailerLite group ID missing for source:", source || "contact");
+    return new Response(JSON.stringify({ error: "MailerLite group is not configured" }), {
+      status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
@@ -26,7 +38,7 @@ export default async (req) => {
       phone: phone || "",
       message: message || "",
     },
-    groups: ["177151137491716042"],
+    groups: [groupId],
   };
 
   const mlRes = await fetch("https://connect.mailerlite.com/api/subscribers", {

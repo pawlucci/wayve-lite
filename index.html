@@ -1500,6 +1500,17 @@
     color: #fff;
   }
   .sf-news-form button:disabled { opacity: 0.7; cursor: default; }
+  .sf-news-status {
+    min-height: 16px;
+    margin-top: 10px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+  .sf-news-status.is-error { color: oklch(0.72 0.18 30); }
+  .sf-news-status.is-success { color: oklch(0.78 0.18 145); }
   .sf-news-fine {
     margin-top: 10px;
     font-size: 11px;
@@ -2132,11 +2143,11 @@
     <div class="sf-newsletter" id="wayve-notes">
       <h3 class="sf-news-title">WAYVE NOTES.</h3>
       <p class="sf-news-copy">Tactical GTM insights &amp; playbooks for technical founders. No fluff, no funnels, unsubscribe in one click.</p>
-      <form class="sf-news-form"
-            onsubmit="event.preventDefault(); const b=this.querySelector('button'); b.textContent='SUBSCRIBED'; b.disabled=true; this.querySelector('input').value='';">
-        <input type="email" required placeholder="your@email.com" aria-label="Email address" />
+      <form class="sf-news-form" id="newsletter-form" method="post" action="/api/contact">
+        <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" />
         <button type="submit">SUBSCRIBE</button>
       </form>
+      <p class="sf-news-status" id="newsletter-status" aria-live="polite"></p>
       <p class="sf-news-fine">By subscribing you agree to receive our newsletter and accept our <a href="#">Privacy Policy</a>.</p>
     </div>
 
@@ -2465,6 +2476,47 @@
       wrap.classList.remove('is-playing');
       video.controls = false;
       video.currentTime = 0;
+    });
+  })();
+
+  /* ─── newsletter: subscribe through the MailerLite-backed contact API ─── */
+  (function(){
+    const form = document.getElementById('newsletter-form');
+    const status = document.getElementById('newsletter-status');
+    if (!form || !status) return;
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button');
+      const input = this.querySelector('input[name="email"]');
+      btn.disabled = true;
+      btn.textContent = 'SENDING...';
+      status.textContent = '';
+      status.className = 'sf-news-status';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: input.value,
+            source: 'newsletter',
+            message: 'Newsletter signup',
+          }),
+        });
+
+        if (!res.ok) throw new Error('Newsletter signup failed');
+
+        input.value = '';
+        btn.textContent = 'SUBSCRIBED';
+        status.textContent = 'WELCOME TO WAYVE NOTES.';
+        status.classList.add('is-success');
+      } catch {
+        btn.textContent = 'TRY AGAIN';
+        btn.disabled = false;
+        status.textContent = 'SOMETHING WENT WRONG.';
+        status.classList.add('is-error');
+      }
     });
   })();
 
