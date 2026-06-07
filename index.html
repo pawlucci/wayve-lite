@@ -18,6 +18,7 @@
     --blue: oklch(0.66 0.20 275);
     --blue-2: oklch(0.76 0.16 275);
     --blue-deep: oklch(0.42 0.22 275);
+    --gtm-bar-h: 52px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,10 +58,102 @@
       radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
   }
 
+  /* ── GTM Tech Week — bold animated top bar (above nav) ── */
+  .gtm-topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 120;
+    height: var(--gtm-bar-h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 0 24px;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+    background:
+      linear-gradient(100deg,
+        var(--blue-deep) 0%,
+        var(--blue) 28%,
+        var(--blue-2) 50%,
+        var(--blue) 72%,
+        var(--blue-deep) 100%);
+    background-size: 220% 100%;
+    animation: gtm-bar-shift 9s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes gtm-bar-shift {
+    0%   { background-position:   0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position:   0% 50%; }
+  }
+  .gtm-topbar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg,
+      transparent 0%, transparent 38%,
+      rgba(255,255,255,0.22) 50%,
+      transparent 62%, transparent 100%);
+    transform: translateX(-100%);
+    animation: gtm-sweep 5.5s ease-in-out 1.5s infinite;
+    pointer-events: none;
+  }
+  @keyframes gtm-sweep {
+    0%   { transform: translateX(-120%); }
+    55%  { transform: translateX(120%); }
+    100% { transform: translateX(120%); }
+  }
+  .gtm-topbar .gtm-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: #fff;
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+    animation: gtm-pulse 2s ease-out infinite;
+  }
+  @keyframes gtm-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+    70%  { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+  }
+  .gtm-topbar .gtm-text {
+    position: relative; z-index: 1;
+    font-weight: 500;
+    font-size: 13.5px;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.92);
+    white-space: nowrap;
+  }
+  .gtm-topbar .gtm-text .slash { font-weight: 600; opacity: 0.7; margin-right: 8px; }
+  .gtm-topbar .gtm-text strong {
+    font-weight: 700; color: #fff;
+    letter-spacing: 0.02em;
+  }
+  .gtm-topbar .gtm-join {
+    font-weight: 700;
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    white-space: nowrap;
+  }
+  .gtm-topbar .gtm-join .arrow { display: inline-block; transition: transform 0.2s; }
+  .gtm-topbar:hover .gtm-join .arrow { transform: translateX(3px); }
+
+  @media (max-width: 760px) {
+    :root { --gtm-bar-h: 48px; }
+    .gtm-topbar { gap: 12px; padding: 0 14px; }
+    .gtm-topbar .gtm-text { font-size: 11.5px; white-space: normal; line-height: 1.15; text-align: center; }
+    .gtm-topbar .gtm-text .gtm-hide-sm { display: none; }
+    .gtm-topbar .gtm-join { font-size: inherit; }
+  }
+
   /* ───────── nav ───────── */
   .nav {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: var(--gtm-bar-h); left: 0; right: 0;
     z-index: 100;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -68,6 +161,7 @@
     padding: 22px 28px;
     backdrop-filter: blur(6px);
     background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0));
+    will-change: top;
   }
   .brand {
     display: flex;
@@ -1799,6 +1893,16 @@
 </head>
 <body>
 
+<a class="gtm-topbar" href="https://www.gtm-week.com/" target="_blank" rel="noopener">
+  <span class="gtm-dot" aria-hidden="true"></span>
+  <span class="gtm-text">
+    <span class="slash" aria-hidden="true">//</span>We are co-organizing
+    <strong>GTM Tech Week Warsaw</strong>
+    <span class="gtm-hide-sm"> &middot; 23&ndash;26 Jun 2026</span> &mdash;
+    <span class="gtm-join">join now <span class="arrow" aria-hidden="true">&rarr;</span></span>
+  </span>
+</a>
+
 <!-- ─────────── NAV ─────────── -->
 <nav class="nav">
   <a class="brand" href="#" aria-label="Wayve">
@@ -2210,6 +2314,34 @@
 </footer>
 
 <script>
+  /* ─── GTM Tech Week topbar: scroll-bound hide/reveal above fixed nav ─── */
+  (function(){
+    const bar = document.querySelector('.gtm-topbar');
+    const nav = document.querySelector('.nav');
+    if (bar && nav) {
+      let ticking = false;
+      function barH() {
+        return parseFloat(getComputedStyle(document.documentElement)
+          .getPropertyValue('--gtm-bar-h')) || bar.offsetHeight;
+      }
+      function update() {
+        ticking = false;
+        const h = barH();
+        const offset = Math.min(Math.max(window.scrollY, 0), h);
+        bar.style.transform = 'translateY(' + (-offset) + 'px)';
+        nav.style.top = (h - offset) + 'px';
+        bar.style.pointerEvents = offset >= h ? 'none' : '';
+      }
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    }
+  })();
+
   /* ─── animated waves: many sine paths drifting across the hero ─── */
   (function(){
     const group = document.getElementById('wave-group');
