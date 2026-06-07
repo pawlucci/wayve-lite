@@ -31,14 +31,15 @@ export default async (req) => {
     });
   }
 
+  const fields = {};
+  if (name) fields.name = name;
+  if (phone) fields.phone = phone;
+  if (source !== "newsletter" && message) fields.message = message;
+
   const payload = {
     email,
-    fields: {
-      name: name || "",
-      phone: phone || "",
-      message: message || "",
-    },
     groups: [groupId],
+    ...(Object.keys(fields).length ? { fields } : {}),
   };
 
   const mlRes = await fetch("https://connect.mailerlite.com/api/subscribers", {
