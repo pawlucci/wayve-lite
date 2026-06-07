@@ -1889,6 +1889,86 @@
     .service { grid-template-columns: 40px 1fr; }
     .svc-meta { grid-column: 2; text-align: left; }
   }
+
+  @media (max-width: 760px) {
+    .hero {
+      height: 100svh;
+      min-height: 620px;
+      padding: 0 28px;
+    }
+    .hero-inner {
+      height: 100%;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .hero-mark {
+      grid-row: auto;
+      align-self: center;
+      height: clamp(36px, 10vw, 44px);
+      margin: 0;
+    }
+    .display {
+      grid-row: auto;
+      font-size: clamp(52px, 14.2vw, 66px);
+      line-height: 0.96;
+    }
+    .hero-bottom {
+      grid-row: auto;
+      align-self: center;
+      margin-top: 0;
+      gap: 24px;
+    }
+    .sub-mono {
+      max-width: 100%;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-align: center;
+    }
+    .pill-wrap { margin-top: 0; }
+
+    .bridge {
+      padding: 72px 28px;
+    }
+    .bridge-stack {
+      gap: 26px;
+    }
+    .offering {
+      padding: 56px 28px 64px;
+    }
+    .of-head {
+      margin-bottom: 52px;
+    }
+    .of-row {
+      padding: 44px 0;
+    }
+    .of-row-title {
+      font-size: clamp(38px, 12vw, 56px);
+    }
+    .tools {
+      padding: 56px 28px 84px;
+    }
+    .tools-marks,
+    .tools-feature,
+    .tools-also,
+    .tools-foot {
+      margin-top: 40px;
+    }
+    .tools-feature {
+      padding: 36px 0;
+    }
+    .contact {
+      height: auto;
+      min-height: 720px;
+      padding: 72px 28px;
+    }
+    .site-footer {
+      padding-top: 56px;
+    }
+  }
 </style>
 </head>
 <body>
