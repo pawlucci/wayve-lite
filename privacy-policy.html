@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy — WAYVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="assets/wayve-mark.svg" type="image/svg+xml" />
+<style>
+  :root {
+    --bg: #000;
+    --ink: #ededed;
+    --ink-dim: #8a8a8a;
+    --rule: rgba(255,255,255,0.10);
+    --blue: oklch(0.66 0.20 275);
+    --blue-2: oklch(0.76 0.16 275);
+    --blue-deep: oklch(0.42 0.22 275);
+    --policy-anchor-offset: 108px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+  body {
+    font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 90;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px);
+    mix-blend-mode: overlay;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 91;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+  }
+  a { color: inherit; text-decoration: none; }
+  #controller, #data, #purposes, #processors, #retention, #rights, #contact {
+    scroll-margin-top: var(--policy-anchor-offset);
+  }
+
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 22px 28px;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(0,0,0,0.64), rgba(0,0,0,0));
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    height: 18px;
+  }
+  .brand img {
+    height: 100%;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+  }
+  .btn {
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.32);
+    background: transparent;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+  .btn:hover {
+    border-color: var(--blue-2);
+    color: var(--blue-2);
+  }
+
+  .privacy-page {
+    position: relative;
+    z-index: 5;
+    min-height: 100vh;
+    padding: 128px clamp(24px, 5vw, 80px) 80px;
+    overflow: hidden;
+  }
+  .privacy-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 52% 36% at 50% 0%, var(--blue-deep) 0%, transparent 68%),
+      radial-gradient(ellipse 36% 24% at 72% 8%, var(--blue) 0%, transparent 70%);
+    filter: blur(70px);
+    opacity: 0.42;
+  }
+  .privacy-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .privacy-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 18px;
+  }
+  .privacy-eyebrow .slash { color: var(--blue-2); font-weight: 500; letter-spacing: 0; }
+  h1 {
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-size: clamp(56px, 9vw, 128px);
+    line-height: 0.98;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: #fff;
+    max-width: 8ch;
+    margin-bottom: 28px;
+  }
+  .lede {
+    max-width: 62ch;
+    color: rgba(255,255,255,0.68);
+    font-size: clamp(16px, 1.35vw, 19px);
+    line-height: 1.55;
+    margin-bottom: clamp(48px, 8vh, 84px);
+  }
+  .policy-grid {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    border-top: 1px solid var(--rule);
+  }
+  .policy-nav {
+    position: sticky;
+    top: 92px;
+    align-self: start;
+    padding-top: 28px;
+  }
+  .policy-nav p {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.48);
+    margin-bottom: 16px;
+  }
+  .policy-nav a {
+    display: block;
+    padding: 8px 0;
+    color: rgba(255,255,255,0.62);
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .policy-nav a:hover { color: #fff; }
+  .policy-content {
+    padding-top: 28px;
+  }
+  .policy-section {
+    padding: 0 0 34px;
+    margin-bottom: 34px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .policy-section:last-child { border-bottom: 0; margin-bottom: 0; }
+  .policy-section h2 {
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-size: clamp(30px, 3vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .policy-section p,
+  .policy-section li {
+    color: rgba(255,255,255,0.66);
+  }
+  .policy-section p + p { margin-top: 14px; }
+  .policy-section ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .policy-section li::before {
+    content: "// ";
+    color: var(--blue-2);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .policy-section strong { color: #fff; font-weight: 700; }
+  .policy-section a {
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.34);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .policy-section a:hover {
+    color: var(--blue-2);
+    border-color: var(--blue-2);
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+  }
+  .meta-chip {
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.78);
+    padding: 7px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .site-footer {
+    position: relative;
+    z-index: 5;
+    background: #000;
+    border-top: 1px solid rgba(255,255,255,0.10);
+    padding: 28px clamp(24px, 5vw, 80px);
+    color: rgba(255,255,255,0.45);
+  }
+  .sf-base {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .sf-base-left, .sf-base-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .sf-base-sep { color: rgba(255,255,255,0.22); }
+  .sf-base a { color: rgba(255,255,255,0.55); transition: color 0.2s; }
+  .sf-base a:hover { color: #fff; }
+
+  @media (max-width: 760px) {
+    :root { --policy-anchor-offset: 88px; }
+    .nav { padding: 18px 22px; }
+    .privacy-page { padding: 104px 24px 56px; }
+    h1 { font-size: clamp(52px, 15vw, 72px); }
+    .policy-grid { grid-template-columns: 1fr; gap: 0; }
+    .policy-nav { position: static; padding: 20px 0; border-bottom: 1px solid var(--rule); }
+    .policy-nav a { display: inline-flex; margin-right: 18px; }
+    .policy-content { padding-top: 34px; }
+    .sf-base { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html" aria-label="Wayve">
+    <img src="assets/wayve-logo.svg" alt="Wayve" />
+  </a>
+  <a class="btn" href="index.html#contact"><span>GET IN TOUCH</span></a>
+</nav>
+
+<main class="privacy-page">
+  <div class="privacy-inner">
+    <div class="privacy-eyebrow"><span class="slash">//</span><span>Legal</span></div>
+    <h1>Privacy Policy.</h1>
+    <p class="lede">
+      This policy explains how WAYVE collects and uses personal data when you visit
+      <strong>thewayve.io</strong>, contact us, or sign up for WAYVE Notes.
+    </p>
+
+    <div class="policy-grid">
+      <aside class="policy-nav" aria-label="Privacy policy sections">
+        <p>Index</p>
+        <a href="#controller">Controller</a>
+        <a href="#data">Data</a>
+        <a href="#purposes">Purpose</a>
+        <a href="#processors">Processors</a>
+        <a href="#retention">Retention</a>
+        <a href="#rights">Rights</a>
+        <a href="#contact">Contact</a>
+      </aside>
+
+      <div class="policy-content">
+        <section class="policy-section" id="controller">
+          <h2>Controller.</h2>
+          <p>
+            The controller of your personal data is <strong>Krzysztof Pawlak</strong>,
+            a sole proprietorship, with address at <strong>ul. Skarbowców 106/6,
+            53-025 Wrocław, Poland</strong>.
+          </p>
+          <p>
+            For privacy matters, contact us at
+            <a href="mailto:krzysztofpawlak@thewayve.io">krzysztofpawlak@thewayve.io</a>.
+          </p>
+          <div class="meta-row">
+            <span class="meta-chip">Website: thewayve.io</span>
+            <span class="meta-chip">Last updated: 7 Jun 2026</span>
+          </div>
+        </section>
+
+        <section class="policy-section" id="data">
+          <h2>Data we collect.</h2>
+          <p>We only collect data you choose to send through the website forms.</p>
+          <ul>
+            <li><strong>Contact form:</strong> name, email address, phone number, and the message you submit.</li>
+            <li><strong>Newsletter form:</strong> email address used to subscribe to WAYVE Notes.</li>
+            <li><strong>Technical data:</strong> basic server logs may be processed by our hosting provider to keep the site secure and available.</li>
+          </ul>
+          <p>
+            We do not intentionally collect special categories of personal data through this website.
+          </p>
+        </section>
+
+        <section class="policy-section" id="purposes">
+          <h2>Why we use it.</h2>
+          <ul>
+            <li>To respond to messages and business enquiries sent through the contact form.</li>
+            <li>To send WAYVE Notes to people who subscribe to the newsletter.</li>
+            <li>To maintain, secure, and improve the website and its forms.</li>
+            <li>To keep records needed to protect our rights or comply with legal obligations.</li>
+          </ul>
+          <p>
+            The legal bases may include taking steps before entering into a contract, our legitimate
+            interest in responding to enquiries and operating the site, your consent for newsletter
+            communication, and legal obligations where applicable.
+          </p>
+        </section>
+
+        <section class="policy-section" id="processors">
+          <h2>Tools and processors.</h2>
+          <p>
+            We use a small number of service providers to run this website and process form submissions.
+          </p>
+          <ul>
+            <li><strong>Netlify:</strong> hosting and serverless functions for the website and form handling.</li>
+            <li><strong>MailerLite:</strong> storing contact and newsletter subscribers and sending email communication.</li>
+          </ul>
+          <p>
+            These providers may process data outside Poland or the European Economic Area. Where required,
+            transfers should rely on appropriate safeguards such as standard contractual clauses or other
+            lawful transfer mechanisms.
+          </p>
+          <p>
+            We do not use analytics tools, tracking pixels, or advertising cookies on this website at this time.
+          </p>
+        </section>
+
+        <section class="policy-section" id="retention">
+          <h2>Retention.</h2>
+          <p>
+            Contact form submissions are kept for as long as needed to handle the enquiry and maintain
+            reasonable business records. Newsletter data is kept until you unsubscribe or ask us to remove it.
+          </p>
+          <p>
+            Every newsletter email will include an unsubscribe link.
+          </p>
+        </section>
+
+        <section class="policy-section" id="rights">
+          <h2>Your rights.</h2>
+          <p>
+            Subject to applicable law, you may have the right to access, correct, delete, restrict,
+            or object to the processing of your personal data, and to request a copy of your data.
+          </p>
+          <p>
+            If processing is based on consent, you can withdraw that consent at any time. You also have
+            the right to lodge a complaint with a data protection authority.
+          </p>
+        </section>
+
+        <section class="policy-section" id="contact">
+          <h2>Privacy contact.</h2>
+          <p>
+            To exercise your rights or ask a privacy question, email
+            <a href="mailto:krzysztofpawlak@thewayve.io">krzysztofpawlak@thewayve.io</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="sf-base">
+    <div class="sf-base-left">
+      <span>&copy; WAYVE 2026</span>
+      <span class="sf-base-sep">/</span>
+      <span>GTM for technology.</span>
+      <span class="sf-base-sep">/</span>
+      <span>HQ Wrocław, Poland</span>
+    </div>
+    <div class="sf-base-right">
+      <a href="index.html">Home</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
